@@ -4,20 +4,17 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PlanController;
+use App\Http\Controllers\InstitucionController;
+use App\Http\Controllers\EjeController;
+use App\Http\Controllers\ObjetivoPndController;
+use App\Http\Controllers\MetaPndController;
+use App\Http\Controllers\ProyectoController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('dashboard');
 });
 
 Route::get('/dashboard', function () {
@@ -30,6 +27,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
+    Route::resource('plans', PlanController::class);
+    Route::resource('institucions', InstitucionController::class);
+    Route::resource('ejes', EjeController::class);
+    Route::resource('objetivo_pnds', ObjetivoPndController::class);
+    Route::resource('meta_pnds', MetaPndController::class);
+    Route::resource('proyectos', ProyectoController::class);
     });
 
 require __DIR__.'/auth.php';

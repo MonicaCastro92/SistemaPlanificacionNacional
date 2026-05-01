@@ -11,17 +11,17 @@ class PlanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+     public function index()
     {
-        //
+        $plans = Plan::where('user_id', auth()->id())->get();
+        return view('plans.index', compact('plans'));
     }
-
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        return view('plans.create');
     }
 
     /**
@@ -29,38 +29,52 @@ class PlanController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+        'nombre' => 'required',
+        'id_plan' => 'required',
+        'fecha_inicio' => 'required'
+    ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Plan $plan)
-    {
-        //
-    }
+    Plan::create([
+        'nombre' => $request->nombre,
+        'id_plan' => $request->id_plan,
+        'fecha_inicio' => $request->fecha_inicio,
+        'fecha_fin' => $request->fecha_fin,
+        'estado' => 'BORRADOR',
+        'user_id' => auth()->id()
+    ]);
+    
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Plan $plan)
-    {
-        //
-    }
+    return redirect()->route('plans.index');
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Plan $plan)
-    {
-        //
     }
+    public function edit($id)
+    {
+        $plan = Plan::findOrFail($id);
+        return view('plans.edit', compact('plan'));
+    }
+    public function update(Request $request, $id)
+{
+    $plan = Plan::findOrFail($id);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Plan $plan)
-    {
-        //
-    }
+    $plan->update([
+        'nombre' => $request->nombre,
+        'id_plan' => $request->id_plan,
+        'estado' => $request->estado,
+        'fecha_inicio' => $request->fecha_inicio,
+        'fecha_fin' => $request->fecha_fin,
+    ]);
+
+    return redirect()->route('plans.index');
 }
+public function destroy($id)
+{
+    $plan = Plan::findOrFail($id);
+    $plan->delete();
+
+    return redirect()->route('plans.index');
+}
+
+ }
+
+
