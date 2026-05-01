@@ -21,6 +21,7 @@ class UserController extends Controller
             'apellido' => 'required',
             'cedula' => 'nullable',
             'direccion' => 'nullable',
+            'email' => 'required|email',
             'role_id' => 'required'
         ]);
 
@@ -29,52 +30,64 @@ class UserController extends Controller
             'apellido' => $request->apellido,
             'cedula' => $request->cedula,
             'direccion' => $request->direccion,
+            'email' => $request->email,
             'role_id' => $request->role_id,
-
-            // Breeze requiere estos
-            'email' => uniqid().'@test.com',
             'password' => bcrypt('123456')
         ]);
 
         return redirect()->route('users.index');
     }
-    public function index()
+
+    public function index(Request $request)
     {
-        $users = User::with('role')->get(); // trae usuarios con su rol
+        $buscar = $request->buscar;
+
+        $users = User::with('role')
+            ->when($buscar, function ($query, $buscar) {
+                $query->where('name', 'like', "%$buscar%")
+                      ->orWhere('apellido', 'like', "%$buscar%")
+                      ->orWhere('cedula', 'like', "%$buscar%");
+            })
+            ->get();
+
         return view('users.index', compact('users'));
     }
+
     public function edit($id)
-{
-    $user = User::findOrFail($id);
-    $roles = Role::all();
+    {
+        $user = User::findOrFail($id);
+        $roles = Role::all();
 
-    return view('users.edit', compact('user', 'roles'));
-}
-public function update(Request $request, $id)
-{
-    $request->validate([
-        'name' => 'required',
-        'apellido' => 'required',
-        'role_id' => 'required'
-    ]);
+        return view('users.edit', compact('user', 'roles'));
+    }
 
-    $user = User::findOrFail($id);
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required',
+            'apellido' => 'required',
+            'role_id' => 'required'
+        ]);
 
-    $user->update([
-        'name' => $request->name,
-        'apellido' => $request->apellido,
-        'cedula' => $request->cedula,
-        'direccion' => $request->direccion,
-        'role_id' => $request->role_id
-    ]);
+        $user = User::findOrFail($id);
 
-    return redirect()->route('users.index');
-}
-public function destroy($id)
-{
-    $user = User::findOrFail($id);
-    $user->delete();
+        $user->update([
+            'name' => $request->name,
+            'apellido' => $request->apellido,
+            'cedula' => $request->cedula,
+            'direccion' => $request->direccion,
+            'email' => $request->email,
+            'role_id' => $request->role_id
+        ]);
 
-    return redirect()->route('users.index');
-}
+        return redirect()->route('users.index');
+    }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('users.index');
+    }
 }

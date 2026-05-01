@@ -1,46 +1,97 @@
-<h1>Crear Usuario</h1>
+@extends('layouts.app')
 
-<a href="{{ route('users.index') }}">Volver</a>
-<a href="{{ route('users.create') }}">Crear Usuario</a>
-<br><br>
+@section('content')
 
-<form action="{{ route('users.store') }}" method="POST">
-    @csrf
+<div class="container-fluid">
 
-    <label>Nombre:</label>
-    <input type="text" name="name" required>
-    <br></br>
+    <div class="card shadow-sm">
 
-    <label>Apellido:</label>
-    <input type="text" name="apellido" required>
-    <br></br>
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Crear Usuario</h4>
 
-    <label>Cedula:</label>
-    <input type="text" name="cedula" required>
-    <br></br>
+            <a href="{{ route('users.index') }}" class="btn btn-light btn-sm">
+                Volver
+            </a>
+        </div>
 
-    <label>Direccion:</label>
-    <input type="text" name="direccion" required>
-    <br></br>
+        <div class="card-body">
 
-    <label>Email:</label>
-    <input type="text" name="email" required>
-    <br></br>
+            <form action="{{ route('users.store') }}" method="POST">
+                @csrf
 
+                <div class="row">
 
-    <label>Rol:</label>
-    <select name="role_id" required>
-        <option value="">Seleccione un rol</option>
-        @foreach($roles as $role)
-            <option value="{{ $role->id }}">{{ $role->nombre }}</option>
-        @endforeach
-    </select>
-    <br></br>
+                    <!-- NOMBRE -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" name="name" class="form-control" required>
+                    </div>
 
-    <label>Contrasena:</label>
-    <input type="text" name="password" required>
+                    <!-- APELLIDO -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Apellido</label>
+                        <input type="text" name="apellido" class="form-control" required>
+                    </div>
 
-    <br><br>
+                    <!-- CÉDULA -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Cédula</label>
+                        <input type="text" name="cedula" class="form-control" required>
+                    </div>
 
-    <button type="submit">Guardar</button>
-</form>
+                    <!-- DIRECCIÓN -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Dirección</label>
+                        <input type="text" name="direccion" class="form-control" required>
+                    </div>
+
+                    <!-- EMAIL -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+
+                    <!-- ROL -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Rol</label>
+
+                        <select name="role_id" class="form-select" required>
+                            <option value="">Seleccione un rol</option>
+                            @foreach($roles as $role)
+                                <option value="{{ $role->id }}">
+                                    {{ $role->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- CONTRASEÑA -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Contraseña</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+
+                </div>
+
+                <!-- BOTONES -->
+                <div class="d-flex justify-content-end gap-2 mt-3">
+
+                    <a href="{{ route('users.index') }}" class="btn btn-secondary">
+                        Cancelar
+                    </a>
+
+                    <button type="submit" class="btn btn-success">
+                        Guardar
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@endsection

@@ -1,52 +1,55 @@
-<h1>Listado de Roles</h1>
+@extends('layouts.app')
 
-<a href="{{ route('roles.create') }}">Crear Rol</a>
+@section('content')
 
-<br><br>
+<div class="container-fluid">
 
-<!-- 🔍 BUSCADOR -->
-<form method="GET" action="{{ route('roles.index') }}">
-    <input type="text" name="buscar" value="{{ request('buscar') }}" placeholder="Buscar rol...">
-    <button type="submit">Buscar</button>
-</form>
+    <div class="d-flex justify-content-between mb-3">
+        <h3>Listado de Roles</h3>
 
-<br>
+        <a href="{{ route('roles.create') }}" class="btn btn-primary">
+            Crear Rol
+        </a>
+    </div>
 
-<table border="1">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Permiso</th>
-            <th>Acciones</th>
-            
-          
-        </tr>
-    </thead>
+    <form class="mb-3" method="GET">
+        <div class="input-group">
+            <input class="form-control" name="buscar" placeholder="Buscar...">
+            <button class="btn btn-outline-primary">Buscar</button>
+        </div>
+    </form>
 
-    <tbody>
-        @foreach($roles as $role)
-        <tr>
-            <td>{{ $role->nombre }}</td>
-            <td>{{ $role->descripcion }}</td>
-            <td>{{$role->permiso}}</td>
+    <table class="table table-striped table-bordered w-100">
+        <thead class="table-dark">
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Permiso</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
 
-            <td>
-                <!-- ✏️ EDITAR -->
-                <a href="{{ route('roles.edit', $role->id) }}">Editar</a>
+        <tbody>
+            @foreach($roles as $role)
+            <tr>
+                <td>{{ $role->nombre }}</td>
+                <td>{{ $role->descripcion }}</td>
+                <td>{{ $role->permiso }}</td>
+                <td>
+                    <a class="btn btn-warning btn-sm" href="{{ route('roles.edit', $role->id) }}">Editar</a>
 
-                <!-- 🗑️ ELIMINAR -->
-                <form action="{{ route('roles.destroy', $role->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
+                    <form style="display:inline;" method="POST" action="{{ route('roles.destroy', $role->id) }}">
+                        @csrf
+                        @method('DELETE')
 
-                    <button type="submit" onclick="return confirm('¿Seguro que deseas eliminar este rol?')">
-                        Eliminar
-                    </button>
-                </form>
-            </td>
+                        <button class="btn btn-danger btn-sm">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+</div>
+
+@endsection

@@ -11,10 +11,18 @@ class PlanController extends Controller
     /**
      * Display a listing of the resource.
      */
-     public function index()
+    public function index(Request $request)
     {
-        $plans = Plan::where('user_id', auth()->id())->get();
-        return view('plans.index', compact('plans'));
+        $plans = Plan::all();
+        $query = Plan::query();
+
+    if ($request->filled('buscar')) {
+        $query->where('nombre', 'like', '%' . $request->buscar . '%');
+    }
+
+    $plans = $query->get();
+
+    return view('plans.index', compact('plans'));
     }
     /**
      * Show the form for creating a new resource.

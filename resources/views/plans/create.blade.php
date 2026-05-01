@@ -1,33 +1,77 @@
-<h1>Crear Plan</h1>
+@extends('layouts.app')
 
-<a href="{{ route('plans.index') }}">Volver</a>
+@section('content')
 
-<br><br>
+<div class="container-fluid">
 
-<form action="{{ route('plans.store') }}" method="POST">
-    @csrf
+    <div class="card shadow-sm">
 
-    <label>Nombre:</label>
-    <input type="text" name="nombre" required>
-    <br><br>
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Crear Plan</h4>
 
-    <label>Código del Plan:</label>
-    <input type="text" name="id_plan" required>
-    <br><br>
+            <a href="{{ route('plans.index') }}" class="btn btn-light btn-sm">
+                Volver
+            </a>
+        </div>
 
-    <label>Estado:</label>
-    <input type="text" name="estado" required>
-    <br><br>
+        <div class="card-body">
 
-    <label>Fecha Inicio:</label>
-    <input type="date" name="fecha_inicio" required>
-    <br><br>
+            <form action="{{ route('plans.store') }}" method="POST">
+                @csrf
 
-    <label>Fecha Fin:</label>
-    <input type="date" name="fecha_fin">
-    <br><br>
+                <div class="row">
 
-    
+                    <!-- NOMBRE -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" name="nombre" class="form-control" required>
+                    </div>
 
-    <button type="submit">Guardar</button>
-</form>
+                    <!-- CÓDIGO -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Código del Plan</label>
+                        <input type="text" name="id_plan" class="form-control" required>
+                    </div>
+
+                    <!-- ESTADO -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Estado</label>
+                        <input type="text" name="estado" class="form-control" required>
+                    </div>
+
+                    <!-- FECHA INICIO -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Fecha Inicio</label>
+                        <input type="date" name="fecha_inicio" class="form-control" required>
+                    </div>
+
+                    <!-- FECHA FIN -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Fecha Fin</label>
+                        <input type="date" name="fecha_fin" class="form-control">
+                    </div>
+
+                </div>
+
+                <!-- BOTONES -->
+                <div class="d-flex justify-content-end gap-2 mt-3">
+
+                    <a href="{{ route('plans.index') }}" class="btn btn-secondary">
+                        Cancelar
+                    </a>
+
+                    <button type="submit" class="btn btn-success">
+                        Guardar
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@endsection

@@ -1,65 +1,86 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de planificacion Nacional</title>
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+        /* SIDEBAR */
+        .sidebar {
+            min-height: 100vh;
+            background-color: #343a40;
+            padding-top: 20px;
+        }
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+        .sidebar a {
+            color: white;
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px 10px;
+        }
 
-            <!-- Page Content -->
-            <main>
-                <div style="display:flex">
+        .sidebar a:hover {
+            background-color: #495057;
+        }
 
-    <!-- Sidebar -->
-    <div style="width:200px; background:yellow; padding:10px;">
-        <h3>Menu</h3>
-        <ul>
-            <li><a href="/dashboard">Dashboard</a></li>
-            <li>
-    <strong>Roles</strong>
-    <ul>
-        <li><a href="/roles/create">Registrar Rol</a></li>
-        <li><a href="/roles">Consultar Roles</a></li>
-   
-    </ul>
-    <strong>Usuarios</strong>
-    <ul>
-        <li><a href="/users/create">Registrar Usuario</a></li>
-        <li><a href="/users">Consultar Usuario</a></li>
-   
-    </ul>
-</li>
-        </ul>
+        .sidebar a.active {
+            background-color: #0d6efd;
+        }
+
+        /* CONTENIDO */
+        .content {
+            padding: 20px;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background-color: #0d6efd !important;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR SUPERIOR -->
+<nav class="navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ route('dashboard') }}">
+            Sistema de planificacion Nacional
+        </a>
     </div>
+</nav>
 
-    <!-- Content -->
-    <div style="flex:1; padding:20px;">
-        {{ $slot }}
-    </div>
+<!-- CONTENIDO GENERAL -->
+<div class="container-fluid">
+    <div class="row">
 
-</div>
-            </main>
+        <!-- SIDEBAR IZQUIERDO -->
+        <div class="col-md-2 sidebar">
+
+            <a href="{{ route('roles.index') }}">Roles</a>
+            <a href="{{ route('users.index') }}">Usuarios</a>
+            <a href="{{ route('plans.index') }}">Planes nacionales</a>
+
         </div>
-    </body>
+
+        <!-- CONTENIDO -->
+        <div class="col-md-10 content">
+
+            @yield('content')
+
+        </div>
+
+    </div>
+</div>
+
+</body>
 </html>

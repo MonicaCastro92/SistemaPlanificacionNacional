@@ -1,46 +1,84 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Planificacion Nacional</title>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    
-                    <h3>Opciones del Sistema</h3>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-                    <br>
+    <style>
+        /* FONDO GENERAL */
+        body {
+            background-image: url('/img/fondo.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
 
-                    <a href="{{ route('users.index') }}">👤 Usuarios</a>
-                    <br><br>
+        /* CONTENEDOR CON TRANSPARENCIA */
+        .contenido {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 20px;
+            border-radius: 12px;
+        }
 
-                    <a href="{{ route('roles.index') }}">🛠️ Roles</a>
-                    <br><br>
+        /* BOTONES DEL MENÚ */
+        .menu-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 120px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            color: white;
+            transition: 0.2s ease-in-out;
+        }
 
-                    <a href="{{ route('plans.create') }}">📄 Crear Plan</a>
-                    <br><br>
+        .menu-card:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
 
-                    <a href="{{ route('plans.index') }}">📋 Ver Planes</a>
-                    <br></br>
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+    </style>
+</head>
 
-                    <a href="{{ route('institucions.index') }}">🏢 Instituciones</a>
-                    <br><br>
-                    <a href="{{ route('ejes.index') }}">listar Ejes</a>
-                    <a href="{{ route('ejes.create') }}">📄 Crear ejesss</a>
-                    <br><br>
-                    <a href="{{ route('objetivo_pnds.index') }}">objetivoPnd</a>
-                    <a href="{{ route('objetivo_pnds.create') }}">📄 Crear Objetivo Pnd</a>
-                    <br><br>
-                    
-                    <a href="{{ route('proyectos.index') }}">📋 Ver Proyecto</a>
-                    <a href="{{ route('proyectos.create') }}">📄 Crear Proyecto</a>
-                    <br><br>
-                    <br></br>
-                </div>
-            </div>
-        </div>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="#">Sistema de planificacion Nacional</a>
     </div>
-</x-app-layout>
+</nav>
+
+<!-- CONTENIDO -->
+<div class="container mt-4 contenido">
+
+    <!-- MENÚ -->
+    <div class="menu-grid mb-4">
+        
+        <a href="{{ route('roles.index') }}" class="menu-card bg-dark">Roles</a>
+        <a href="{{ route('users.index') }}" class="menu-card bg-primary">Usuarios</a>
+        <a href="{{ route('plans.index') }}" class="menu-card bg-success">Planes</a>
+        <a href="#" class="menu-card bg-primary">Proyectos</a>
+        <a href="#" class="menu-card bg-success">Indicadores</a>
+        <a href="#" class="menu-card bg-warning text-dark">ODS</a>
+        <a href="#" class="menu-card bg-danger">Auditoría</a>
+
+    </div>
+
+    <!-- VISTAS -->
+    @yield('content')
+
+</div>
+
+</body>
+</html>

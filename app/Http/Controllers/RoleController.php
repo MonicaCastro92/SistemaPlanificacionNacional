@@ -10,7 +10,7 @@ class RoleController extends Controller
 {
      public function index(Request $request)
     {
-        $roles = Role::all();
+       $roles = Role::all();
        $query = Role::query();
 
     if ($request->filled('buscar')) {
@@ -72,7 +72,8 @@ public function update(Request $request, $id)
 
     $role->update([
         'nombre' => $request->nombre,
-        'descripcion' => $request->descripcion
+        'descripcion' => $request->descripcion,
+        'permiso' => $request->permiso
     ]);
 
     return redirect()->route('roles.index');
